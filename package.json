@@ -1,12 +1,19 @@
 {
-  "name": "untitled",
+  "name": "vanBetting",
   "version": "1.0.0",
-  "description": "",
+  "description": "fun Betting with Friends and family",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "van Son",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^13.3.1",
+    "dotenv": "^10.0.0",
+    "yarn": "^1.22.17"
+  }
 }
