@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./SQL/vanBetting.db"
+}
+
+model player {
+    uid Int @id @default(autoincrement())
+    name String
+    points Int @default(0)
+}
+
+model team {
+    uid Int @id @default(autoincrement())
+    name String
+}
+
+model mvp {
+    uid Int @id @default(autoincrement())
+    player player? @relation( fields: [playerID], references: [uid])
+    playerID Int
+    tip String
+}
+
+model match {
+    uid Int @id @default(autoincrement())
+    team team? @relation( fields: [team1, team2], references: [uid])
+    team1 Int
+    team2 Int
+    week Int
+    day Int
+}
+
+model tip {
+    uid Int @id @default(autoincrement())
+    match match? @relation( fields: [match], references: [uid])
+    matchID Int
+    player player? @relation( fields: [playerID], references: [uid])
+    playerID Int
+    team team? @relation( fields: [tip, winner], references: [uid])
+    tip Int
+    winner int
+}
+
+model special {
+    uid Int @id
+}
+
