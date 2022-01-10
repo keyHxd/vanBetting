@@ -11,44 +11,41 @@ datasource db {
 }
 
 model player {
-    uid Int @id @default(autoincrement())
-    name String
-    points Int @default(0)
+  uid    Int    @id @default(autoincrement())
+  name   String
+  points Int    @default(0)
+  mvp    mvp[]
+  tip    tip[]
 }
 
 model team {
-    uid Int @id @default(autoincrement())
-    name String
+  uid   Int     @id @default(autoincrement())
+  name  String
+  match match[]
 }
 
 model mvp {
-    uid Int @id @default(autoincrement())
-    player player? @relation( fields: [playerID], references: [uid])
-    playerID Int
-    tip String
+  uid      Int     @id @default(autoincrement())
+  player   player? @relation(fields: [playerID], references: [uid])
+  playerID Int
+  tip      String
 }
 
 model match {
-    uid Int @id @default(autoincrement())
-    team team? @relation( fields: [team1, team2], references: [uid])
-    team1 Int
-    team2 Int
-    week Int
-    day Int
+  uid    Int     @id @default(autoincrement())
+  teamID Int
+  team   team?   @relation(fields: [teamID], references: [uid])
+  week   Int
+  day    Int
+  match  Int
+  winner Boolean
+  tip    tip[]
 }
 
 model tip {
-    uid Int @id @default(autoincrement())
-    match match? @relation( fields: [match], references: [uid])
-    matchID Int
-    player player? @relation( fields: [playerID], references: [uid])
-    playerID Int
-    team team? @relation( fields: [tip, winner], references: [uid])
-    tip Int
-    winner int
+  uid      Int     @id @default(autoincrement())
+  match    match?  @relation(fields: [matchID], references: [uid])
+  matchID  Int
+  player   player? @relation(fields: [playerID], references: [uid])
+  playerID Int
 }
-
-model special {
-    uid Int @id
-}
-
