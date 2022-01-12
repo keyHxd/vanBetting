@@ -1,4 +1,4 @@
-const {stringify} = require("yarn/lib/cli");
+const {stringify, repl} = require("yarn/lib/cli");
 const Console = require("console");
 module.exports = {
     name: 'scoreboard',
@@ -11,7 +11,12 @@ module.exports = {
                 }
             ]
         })
-        Console.log(JSON.stringify(scoreboard))
+        let count = await prisma.player.count()
+        let reply = ``
+        for (let x = 0; x < count; x++) {
+           reply += `${scoreboard[x].name}: ${scoreboard[x].points} points\n`
+        }
+        message.channel.send(reply)
     }
 
 }
