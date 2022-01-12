@@ -1,4 +1,5 @@
 require('dotenv').config()
+const prisma = require('./client')
 const fs = require('fs')
 const { Client, Intents, Collection} = require('discord.js')
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] })
@@ -26,7 +27,7 @@ client.on('message', (message) => {
   if (!client.commands.has(command)) return;
 
   try {
-    client.commands.get(command).execute(message, args);
+    client.commands.get(command).execute(message, args, prisma);
   } catch (error) {
     console.error(error);
     message.reply('there was an error trying to execute that command!');
