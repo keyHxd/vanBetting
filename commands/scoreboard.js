@@ -1,5 +1,3 @@
-const {stringify, repl} = require("yarn/lib/cli");
-const Console = require("console");
 module.exports = {
     name: 'scoreboard',
     description: 'Show all competitors and their current points',
@@ -18,5 +16,4 @@ module.exports = {
         }
         message.channel.send(reply)
     }
-
 }
