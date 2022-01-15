@@ -1,4 +1,3 @@
-
 module.exports = {
     name: 'tip',
     description: 'tip a match of the current week',
@@ -8,7 +7,6 @@ module.exports = {
         let day
         let match
         for (let x=0; x < args.length; x++) {
-            console.log(args[x])
 
            if(args[x] === 'day' ) {
                day = args[x + 1]
@@ -50,6 +48,9 @@ module.exports = {
                         },
                         {
                             teamID: {equals: await parseInt(teamID.uid)}
+                        },
+                        {
+                            winner: {equals: false}
                         }
 
                     ]
@@ -57,45 +58,47 @@ module.exports = {
             })
             await console.log(matchID)
 
+            if (matchID.length > 0) {
 
-            const playerID = await prisma.player.findMany({
-                where: {
-                    name: message.author.username
-                },
-                select: {
-                    uid: true,
-                    name: false,
-                    points: false
-                }
-            })
-            console.log(playerID)
-
-            const findBet = await prisma.tip.findFirst({
-                where: {
-                    matchID: {equals: matchID[0].uid},
-                    playerID: {equals: playerID[0].uid}
-                }
-            })
-            console.log(findBet)
-
-            if (findBet <= 0) {
-                const newBet = await prisma.tip.create({
-                    data: {
-                        matchID: matchID[0].uid,
-                        playerID: playerID[0].uid
+                const playerID = await prisma.player.findMany({
+                    where: {
+                        name: message.author.username
+                    },
+                    select: {
+                        uid: true,
+                        name: false,
+                        points: false
                     }
                 })
-                message.channel.send('eat my ass')
+                console.log(playerID)
+
+                const findBet = await prisma.tip.findFirst({
+                    where: {
+                        matchID: {equals: matchID[0].uid},
+                        playerID: {equals: playerID[0].uid}
+                    }
+                })
+                console.log(findBet)
+
+                if (findBet <= 0) {
+                    const newBet = await prisma.tip.create({
+                        data: {
+                            matchID: matchID[0].uid,
+                            playerID: playerID[0].uid
+                        }
+                    })
+                    message.channel.send('eat my ass')
+                } else {
+                    message.channel.send('you have already bet on this match.')
+                }
+            } else {
+                message.channel.send('Match has already been closed, you are to late')
             }
-            else {
-                message.channel.send('you have already bet on this match.')
-            }
+
+
         } catch (e) {
             console.log(e)
         }
-
-
-
     }
 }
 
